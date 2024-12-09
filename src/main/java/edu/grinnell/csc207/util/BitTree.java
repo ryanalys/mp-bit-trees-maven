@@ -86,6 +86,12 @@ public class BitTree {
 
     BitTreeNode current = this.root;
     for (int i = 0; i < stringSize; i++) {
+      if ((current.left == null) && (current.right == null)) {
+        PrintWriter pen = new PrintWriter(System.out, true);
+        pen.println("Error: Trouble translating because character not found.");
+        return "";
+      } //if
+      
       if (bits.charAt(i) == '0') {
         if (current.left == null) {
           throw new IndexOutOfBoundsException();
