@@ -1,10 +1,13 @@
 package edu.grinnell.csc207.util;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.io.IOException;
 
 /**
- * Trees intended to be used in storing mappings between fixed-length 
+ * Trees intended to be used in storing mappings between fixed-length
  * sequences of bits and corresponding values.
  *
  * @author Alyssa Ryan
@@ -14,16 +17,20 @@ public class BitTree {
   // | Fields |
   // +--------+
   /**
-   * The length of the string that will be given
+   * The length of the string that will be given.
    */
   int stringSize;
+  /**
+   * The root of the BitTree.
+   */
   BitTreeNode root;
   // +--------------+------------------------------------------------
   // | Constructors |
   // +--------------+
 
   /**
-   *
+   * Constructor for the BitTree.
+   * @param n : The number of bits that will be in the inputted strings
    */
   public BitTree(int n) {
     this.stringSize = n;
@@ -39,15 +46,17 @@ public class BitTree {
   // +---------+
 
   /**
-   *
+   * Sets a specific value at the correct node given by the path 'bits'.
+   * @param bits The path to where the value should be placed
+   * @param value The value that should be placed at the node
    */
   public void set(String bits, String value) {
-    if(bits.length() != stringSize) {
+    if (bits.length() != stringSize) {
       throw new IndexOutOfBoundsException();
-    } ///if
+    } //if
 
     BitTreeNode current = this.root;
-    for(int i = 0; i < stringSize; i++) {
+    for (int i = 0; i < stringSize; i++) {
       if (bits.charAt(i) == '0') {
         if (current.left == null) {
           BitTreeNode left = new BitTreeNode();
@@ -66,7 +75,9 @@ public class BitTree {
   } // set(String, String)
 
   /**
-   * Gets the 
+   * Gets the value from the node that can be found using the path 'bits'.
+   * @param bits The path to the node we want
+   * @return The value at the node we want
    */
   public String get(String bits) {
     if (bits.length() != stringSize) {
@@ -74,7 +85,7 @@ public class BitTree {
     } //if
 
     BitTreeNode current = this.root;
-    for(int i = 0; i < stringSize; i++) {
+    for (int i = 0; i < stringSize; i++) {
       if (bits.charAt(i) == '0') {
         if (current.left == null) {
           throw new IndexOutOfBoundsException();
@@ -87,7 +98,7 @@ public class BitTree {
         current = current.right;
       } // if
     } // for
-    
+
     if (current.value == null) {
       throw new IndexOutOfBoundsException();
     } else {
@@ -96,17 +107,52 @@ public class BitTree {
   } // get(String, String)
 
   /**
-   *
+   * Recursively calls itself to trace every branch of the tree, printing all values in CSV format.
+   * @param path The path we have traversed so far, in bit string form
+   * @param current The current node we are at
+   * @return The string we will print out, in CSV format
+   */
+  public String dumpHelper(String path, BitTreeNode current) {
+    String output = path;
+    if (current.value == null) {
+      if (current.left != null) {
+        String left = path + "0";
+        output = dumpHelper(left, current.left);
+      } // if
+      if (current.left != null) {
+        String left = path + "0";
+        output = dumpHelper(left, current.left);
+      } // if
+    } else {
+      return current.value + "," + output;
+    } // if
+    return "";
+  } // dumpHelp(String, BitTreeNode)
+
+  /**
+   * Prints out all values stored in the bitTree and the path to get there.
+   * @param pen The PrintWriter used to print out
    */
   public void dump(PrintWriter pen) {
-    // STUB
+    dumpHelper("", root);
   } // dump(PrintWriter)
 
   /**
-   *
+   * Creates a bitTree based off of the given InputStream.
+   * @param source The InputStream we are reading from to create the bitTree
    */
   public void load(InputStream source) {
-    // STUB
+    BufferedReader read = new BufferedReader(new InputStreamReader(source));
+    String line;
+    try {
+      while ((line = read.readLine()) != null) {
+        String[] splitLine = line.split(",");
+        set(splitLine[0], splitLine[1]);
+      } //while
+    } catch (IOException e) {
+      PrintWriter error = new PrintWriter(System.err);
+      error.println("IOException detected");
+    } //catch
   } // load(InputStream)
 
 } // class BitTree
