@@ -4,7 +4,8 @@ import java.io.PrintWriter;
 import edu.grinnell.csc207.util.BrailleAsciiTables;
 
 /**
- *
+ * Translates the given text from the user into the target character set.
+ * Author: Alyssa Ryan
  */
 public class BrailleASCII {
   // +------+--------------------------------------------------------
@@ -12,7 +13,8 @@ public class BrailleASCII {
   // +------+
 
   /**
-   *
+   * Main method; this is what runs to translate the text.
+   * @param args The input from the user
    */
   public static void main(String[] args) {
     PrintWriter pen = new PrintWriter(System.out, true);
@@ -30,8 +32,8 @@ public class BrailleASCII {
       } //for
     } else if (args[0].equals("ascii")) {
       //If we're translating to ascii, the user must have entered braille
-      for (int i = 0; i < translate.length(); i+=6) {
-        output = output + BrailleAsciiTables.toAscii(translate.substring(i, i+5));
+      for (int i = 0; i < translate.length(); i += 6) {
+        output = output + BrailleAsciiTables.toAscii(translate.substring(i, i + 5));
       } //for
     } else if (args[0].equals("unicode")) {
       //The user could have given us braille or ascii
@@ -44,8 +46,8 @@ public class BrailleASCII {
       } else {
         unicodeTranslate = translate;
       }
-      for (int i = 0; i < translate.length(); i+=6) {
-        output = output + BrailleAsciiTables.toUnicode(unicodeTranslate.substring(i, i+5));
+      for (int i = 0; i < translate.length(); i += 6) {
+        output = output + BrailleAsciiTables.toUnicode(unicodeTranslate.substring(i, i + 5));
       } //for
     } else {
       pen.println("Invalid target character set.");

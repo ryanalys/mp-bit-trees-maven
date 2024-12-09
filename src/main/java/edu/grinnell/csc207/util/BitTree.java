@@ -91,7 +91,7 @@ public class BitTree {
         pen.println("Error: Trouble translating because character not found.");
         return "";
       } //if
-      
+
       if (bits.charAt(i) == '0') {
         if (current.left == null) {
           throw new IndexOutOfBoundsException();
