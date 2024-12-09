@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 /**
  * Some experiments with the Braille-Ascii Tables.
  *
- * @author Your Name Here
+ * @author Alyssa Ryan
  * @author Samuel A. Rebelsky
  */
 public class BATableExperiments {
